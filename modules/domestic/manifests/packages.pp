@@ -53,4 +53,10 @@ class domestic::packages inherits domestic {
   package {'sublime-text':
     ensure => latest,
   }
+  package {'libreoffice':
+    ensure => latest,
+  }
+  package {'gpart':
+    ensure => latest,
+  }
 }
