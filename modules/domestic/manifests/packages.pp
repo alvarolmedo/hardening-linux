@@ -1,4 +1,7 @@
 class domestic::packages inherits domestic {
+
+  include apt
+
   package {'dropbox':
     ensure => latest,
   }
@@ -35,6 +38,11 @@ class domestic::packages inherits domestic {
   package {'vlc':
     ensure => latest,
   }
+  apt::source{ 'spotify_repo':
+    location => 'http://repository.spotify.com',
+    release => 'stable',
+    repos => 'non-free'
+  }->
   package {'spotify-client':
     ensure => latest,
   }
@@ -50,6 +58,12 @@ class domestic::packages inherits domestic {
   package {'openjdk-7-jre':
     ensure => latest,
   }
+
+  apt::source{ 'sublime_repo':
+    location => 'http://ppa.launchpad.net/webupd8team/sublime-text-3/ubuntu',
+    release => 'trusty',
+    repos => 'main'
+  }->
   package {'sublime-text':
     ensure => latest,
   }
@@ -58,5 +72,11 @@ class domestic::packages inherits domestic {
   }
   package {'gpart':
     ensure => latest,
+  }
+  package {'abiword':
+    ensure => absent,
+  }
+  package {'gnumeric':
+    ensure => absent,
   }
 }
