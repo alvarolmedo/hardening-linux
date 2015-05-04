@@ -2,7 +2,7 @@ class domestic::packages inherits domestic {
 
   include apt
 
-  package {'dropbox':
+  package {'nautilus-dropbox':
     ensure => latest,
   }
   package {'terminator':
