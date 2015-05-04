@@ -11,6 +11,9 @@ class domestic::packages inherits domestic {
   package {'virtualbox':
     ensure => latest,
   }
+  package {'unrar':
+    ensure => latest,
+  }
   package {'ipython':
     ensure => latest,
   }
