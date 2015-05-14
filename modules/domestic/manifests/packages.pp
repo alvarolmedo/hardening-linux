@@ -76,6 +76,9 @@ class domestic::packages inherits domestic {
   package {'gpart':
     ensure => latest,
   }
+  package {'fabric':
+    ensure => latest,
+  }
   package {'abiword':
     ensure => absent,
   }
