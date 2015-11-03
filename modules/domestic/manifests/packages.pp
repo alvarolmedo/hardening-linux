@@ -88,4 +88,7 @@ class domestic::packages inherits domestic {
   package {'moreutils':
     ensure => latest,
   }
+  package {'fabric':
+    ensure => latest,
+  }
 }
