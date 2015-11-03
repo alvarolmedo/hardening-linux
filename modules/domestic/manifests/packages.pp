@@ -85,4 +85,7 @@ class domestic::packages inherits domestic {
   package {'gnumeric':
     ensure => absent,
   }
+  package {'moreutils':
+    ensure => latest,
+  }
 }
