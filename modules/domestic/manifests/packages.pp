@@ -91,4 +91,7 @@ class domestic::packages inherits domestic {
   package {'fabric':
     ensure => latest,
   }
+  package { 'tmate':
+    ensure => latest,
+  }
 }
