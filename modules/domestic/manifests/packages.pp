@@ -94,4 +94,10 @@ class domestic::packages inherits domestic {
   package { 'tmate':
     ensure => latest,
   }
+  package { 'ncdu':
+    ensure => latest,
+  }
+  package { 'nethogs':
+    ensure => installed,
+  }
 }
