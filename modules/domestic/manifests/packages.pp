@@ -100,4 +100,7 @@ class domestic::packages inherits domestic {
   package { 'nethogs':
     ensure => installed,
   }
+  package { 'mixxx':
+    ensure => latest,
+  }
 }
