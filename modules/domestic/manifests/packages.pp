@@ -62,6 +62,14 @@ class domestic::packages inherits domestic {
     ensure => latest,
   }
 
+  package {'vagrant':
+    ensure => latest,
+  }
+
+  package {'git':
+    ensure => latest,
+  }
+
   apt::source{ 'sublime_repo':
     location => 'http://ppa.launchpad.net/webupd8team/sublime-text-3/ubuntu',
     release => 'trusty',
