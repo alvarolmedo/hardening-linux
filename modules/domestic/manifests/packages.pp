@@ -41,13 +41,16 @@ class domestic::packages inherits domestic {
   package {'vlc':
     ensure => latest,
   }
-  apt::source{ 'spotify_repo':
-    location => 'http://repository.spotify.com',
-    release => 'stable',
-    repos => 'non-free'
-  }->
-  package {'spotify-client':
-    ensure => latest,
+
+  if $::operatingsystem != 'Ubuntu' {
+    apt::source{ 'spotify_repo':
+      location => 'http://repository.spotify.com',
+      release => 'stable',
+      repos => 'non-free'
+    }->
+    package {'spotify-client':
+      ensure => latest,
+    }
   }
   package {'wine':
     ensure => latest,
@@ -69,14 +72,20 @@ class domestic::packages inherits domestic {
   package {'git':
     ensure => latest,
   }
-
-  apt::source{ 'sublime_repo':
-    location => 'http://ppa.launchpad.net/webupd8team/sublime-text-3/ubuntu',
-    release => 'trusty',
-    repos => 'main'
-  }->
-  package {'sublime-text':
-    ensure => latest,
+  if $::operatingsystem != 'Ubuntu' {
+    $dist = $operatingsystemrelease ? {
+      '14.04' => 'trusty',
+      '16.04' => 'xenial',
+      default => '',
+    }
+    apt::source{ 'sublime_repo':
+      location => 'http://ppa.launchpad.net/webupd8team/sublime-text-3/ubuntu',
+      release => $dist,
+      repos => 'main'
+    }->
+    package {'sublime-text':
+      ensure => latest,
+    }
   }
   package {'libreoffice':
     ensure => latest,
