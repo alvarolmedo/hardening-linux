@@ -42,7 +42,7 @@ class domestic::packages {
     ensure => latest,
   }
 
-  if $::operatingsystem != 'Ubuntu' {
+  if $::operatingsystem == 'Ubuntu' {
     apt::key { 'spotify_key':
       id      => 'BBEBDCB318AD50EC6865090613B00F1FD2C19886',
       server  => 'hkp://keyserver.ubuntu.com:80',
@@ -80,16 +80,14 @@ class domestic::packages {
   package {'git':
     ensure => latest,
   }
-  if $operatingsystem != 'Ubuntu' {
+  if $::operatingsystem == 'Ubuntu' {
     $dist = $operatingsystemrelease ? {
       '14.04' => 'trusty',
       '16.04' => 'xenial',
       default => '',
     }
-    apt::source{ 'sublime_repo':
-      location => 'http://ppa.launchpad.net/webupd8team/sublime-text-3/ubuntu',
+    apt::ppa{ 'ppa:webupd8team/sublime-text-3':
       release => $dist,
-      repos => 'main'
     }->
     package {'sublime-text':
       ensure => latest,
