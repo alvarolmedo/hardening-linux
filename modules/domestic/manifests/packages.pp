@@ -49,8 +49,8 @@ class domestic::packages {
     }->
     apt::source{ 'spotify_repo':
       location => 'http://repository.spotify.com',
-      release => 'stable',
-      repos => 'non-free'
+      release  => 'stable',
+      repos    => 'non-free'
     }->
     package {'spotify-client':
       ensure => latest,
@@ -60,6 +60,7 @@ class domestic::packages {
       message => 'No ubuntu SO detected',
     }
   }
+
   package {'wine':
     ensure => latest,
   }
@@ -130,4 +131,14 @@ class domestic::packages {
   package { 'remmina':
     ensure => latest,
   }
+  package { 'network-manager-openconnect':
+    ensure => latest,
+  }
+  package { 'network-manager-openconnect':
+    ensure => latest,
+  }
+  package { 'openconnect':
+    ensure => latest,
+  }
+
 }
