@@ -1,7 +1,7 @@
 class domestic{
-  Class['domestic::packages'] 
+  class{'domestic::packages': }
   -> 
-  Class['domestic::config'] 
+  class{'domestic::config': }
   -> 
-  Class['domestic::services']
+  class{'domestic::services': }
 }

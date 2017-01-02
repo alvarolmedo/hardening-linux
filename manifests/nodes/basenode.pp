@@ -1,3 +1,4 @@
 node 'default' {
-  include domestic
+  class {"domestic":
+  }
 }

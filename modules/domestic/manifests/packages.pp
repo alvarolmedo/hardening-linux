@@ -1,4 +1,4 @@
-class domestic::packages inherits domestic {
+class domestic::packages {
 
   include apt
 
@@ -26,7 +26,7 @@ class domestic::packages inherits domestic {
   package {'firefox-locale-es':
     ensure => latest,
   }
-  package {'google-chrome-stable':
+  package {'chromium-browser':
     ensure => latest,
   }
   package {'thunderbird':
@@ -43,6 +43,10 @@ class domestic::packages inherits domestic {
   }
 
   if $::operatingsystem != 'Ubuntu' {
+    apt::key { 'spotify_key':
+      id      => 'BBEBDCB318AD50EC6865090613B00F1FD2C19886',
+      server  => 'hkp://keyserver.ubuntu.com:80',
+    }->
     apt::source{ 'spotify_repo':
       location => 'http://repository.spotify.com',
       release => 'stable',
@@ -50,6 +54,10 @@ class domestic::packages inherits domestic {
     }->
     package {'spotify-client':
       ensure => latest,
+    }
+  }else {
+    notify{ "warn":
+      message => 'No ubuntu SO detected',
     }
   }
   package {'wine':
@@ -61,7 +69,7 @@ class domestic::packages inherits domestic {
   package {'scummvm':
     ensure => latest,
   }
-  package {'openjdk-7-jre':
+  package {'default-jre':
     ensure => latest,
   }
 
@@ -72,7 +80,7 @@ class domestic::packages inherits domestic {
   package {'git':
     ensure => latest,
   }
-  if $::operatingsystem != 'Ubuntu' {
+  if $operatingsystem != 'Ubuntu' {
     $dist = $operatingsystemrelease ? {
       '14.04' => 'trusty',
       '16.04' => 'xenial',
@@ -85,6 +93,10 @@ class domestic::packages inherits domestic {
     }->
     package {'sublime-text':
       ensure => latest,
+    }
+  }else{
+    notify{ "warn2":
+      message => 'No ubuntu SO detected',
     }
   }
   package {'libreoffice':
@@ -105,9 +117,6 @@ class domestic::packages inherits domestic {
   package {'moreutils':
     ensure => latest,
   }
-  package {'fabric':
-    ensure => latest,
-  }
   package { 'tmate':
     ensure => latest,
   }
@@ -118,6 +127,9 @@ class domestic::packages inherits domestic {
     ensure => installed,
   }
   package { 'mixxx':
+    ensure => latest,
+  }
+  package { 'remmina':
     ensure => latest,
   }
 }

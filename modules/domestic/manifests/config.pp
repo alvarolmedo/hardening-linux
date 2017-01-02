@@ -1,4 +1,4 @@
-class domestic::config inherits domestic {
+class domestic::config {
   user { 'aolmedo':
     ensure   => present,
     home     => '/home/aolmedo',
