@@ -134,11 +134,35 @@ class domestic::packages {
   package { 'network-manager-openconnect':
     ensure => latest,
   }
-  package { 'network-manager-openconnect':
+  package { 'network-manager-openconnect-gnome':
     ensure => latest,
   }
   package { 'openconnect':
     ensure => latest,
+  }
+
+  if $::operatingsystem == 'Ubuntu' {
+    apt::ppa{ 'ppa:pipelight/stable':
+      release => 'stable',
+      notify => Exec['apt_update']
+    }->
+    package {'pipelight-multi':
+      ensure => latest,
+      install_options => ['--install-recommends'],
+    }->
+    exec {'update_pipelight':
+      command => '/usr/bin/pipelight-plugin --update',
+    }->
+    exec {'update_pipelight':
+      command => '/usr/bin/pipelight-plugin --create-mozilla-plugins',
+    }->
+    exec {'enable_pipelight':
+      command => '/usr/bin/pipelight-plugin --accept --enable silverlight5.0',
+    }
+  }else{
+    notify{ "warn3":
+      message => 'No ubuntu SO detected',
+    }
   }
 
 }
