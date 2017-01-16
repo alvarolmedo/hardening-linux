@@ -1,5 +1,7 @@
 class domestic::packages {
 
+  #To-Do: A define to display warning messages
+
   include apt
 
   package {'nautilus-dropbox':
@@ -43,20 +45,42 @@ class domestic::packages {
   }
 
   if $::operatingsystem == 'Ubuntu' {
-    apt::key { 'spotify_key':
-      id      => 'BBEBDCB318AD50EC6865090613B00F1FD2C19886',
-      server  => 'hkp://keyserver.ubuntu.com:80',
-    }->
     apt::source{ 'spotify_repo':
       location => 'http://repository.spotify.com',
       release  => 'stable',
-      repos    => 'non-free'
+      repos    => 'non-free',
+      key      => {
+        id     => 'BBEBDCB318AD50EC6865090613B00F1FD2C19886',
+        server => 'hkp://keyserver.ubuntu.com:80',
+      }
     }->
     package {'spotify-client':
       ensure => latest,
     }
   }else {
     notify{ "warn":
+      message => 'No ubuntu SO detected',
+    }
+  }
+
+  if $::operatingsystem == 'Ubuntu' {
+    package {'apt-transport-https':
+      ensure => latest,
+    }->
+    exec { 'skype_key':
+      command => '/usr/bin/curl https://repo.skype.com/data/SKYPE-GPG-KEY | /usr/bin/apt-key add -',
+      unless  => '/usr/bin/apt-key list | /bin/grep -i skype'
+    }->
+    apt::source{ 'skype_repo':
+      location => 'https://repo.skype.com/deb',
+      release  => 'stable',
+      repos    => 'main'
+    }->
+    package {'skypeforlinux':
+      ensure => latest,
+    }
+  }else {
+    notify{ "warn3":
       message => 'No ubuntu SO detected',
     }
   }
@@ -90,7 +114,7 @@ class domestic::packages {
     apt::ppa{ 'ppa:webupd8team/sublime-text-3':
       release => $dist,
     }->
-    package {'sublime-text':
+    package {'sublime-text-installer':
       ensure => latest,
     }
   }else{
@@ -152,12 +176,15 @@ class domestic::packages {
     }->
     exec {'update_pipelight':
       command => '/usr/bin/pipelight-plugin --update',
+      unless  => '/usr/bin/pipelight-plugin --list-enabled | /bin/grep silverlight5.0'
     }->
-    exec {'update_pipelight':
+    exec {'update_pipelight_2':
       command => '/usr/bin/pipelight-plugin --create-mozilla-plugins',
+      unless  => '/usr/bin/pipelight-plugin --list-enabled | /bin/grep silverlight5.0'
     }->
     exec {'enable_pipelight':
       command => '/usr/bin/pipelight-plugin --accept --enable silverlight5.0',
+      unless  => '/usr/bin/pipelight-plugin --list-enabled | /bin/grep silverlight5.0'
     }
   }else{
     notify{ "warn3":
