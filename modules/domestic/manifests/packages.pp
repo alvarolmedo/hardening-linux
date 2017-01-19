@@ -164,6 +164,12 @@ class domestic::packages {
   package { 'openconnect':
     ensure => latest,
   }
+  package { 'htop':
+    ensure => latest,
+  }
+  package { 'gparted':
+    ensure => latest,
+  }
 
   if $::operatingsystem == 'Ubuntu' {
     apt::ppa{ 'ppa:pipelight/stable':
