@@ -71,10 +71,11 @@ class domestic::packages {
       command => '/usr/bin/curl https://repo.skype.com/data/SKYPE-GPG-KEY | /usr/bin/apt-key add -',
       unless  => '/usr/bin/apt-key list | /bin/grep -i skype'
     }->
-    apt::source{ 'skype_repo':
-      location => 'https://repo.skype.com/deb',
-      release  => 'stable',
-      repos    => 'main'
+    apt::source{ 'skype-stable':
+      location     => 'https://repo.skype.com/deb',
+      release      => 'stable',
+      repos        => 'main',
+      architecture => 'amd64',
     }->
     package {'skypeforlinux':
       ensure => latest,
