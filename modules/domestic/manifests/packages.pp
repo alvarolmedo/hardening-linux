@@ -107,13 +107,8 @@ class domestic::packages {
     ensure => latest,
   }
   if $::operatingsystem == 'Ubuntu' {
-    $dist = $operatingsystemrelease ? {
-      '14.04' => 'trusty',
-      '16.04' => 'xenial',
-      default => '',
-    }
     apt::ppa{ 'ppa:webupd8team/sublime-text-3':
-      release => $dist,
+      release => $::lsbdistcodename,
     }->
     package {'sublime-text-installer':
       ensure => latest,
@@ -153,9 +148,6 @@ class domestic::packages {
   package { 'mixxx':
     ensure => latest,
   }
-  package { 'remmina':
-    ensure => latest,
-  }
   package { 'network-manager-openconnect':
     ensure => latest,
   }
@@ -163,6 +155,9 @@ class domestic::packages {
     ensure => latest,
   }
   package { 'openconnect':
+    ensure => latest,
+  }
+  package { 'diffuse':
     ensure => latest,
   }
   package { 'htop':
@@ -198,5 +193,25 @@ class domestic::packages {
       message => 'No ubuntu SO detected',
     }
   }
+
+  if $::operatingsystem == 'Ubuntu' {
+    apt::ppa{ 'ppa:remmina-ppa-team/remmina-next':
+      release => $::lsbdistcodename,
+    }->
+    package {'libfreerdp-plugins-standard':
+      ensure => latest,
+    }->
+    package {'remmina-plugin-rdp':
+      ensure => latest,
+    }->
+    package {'remmina':
+      ensure => latest,
+    }
+  }else{
+    notify{ "warn4":
+      message => 'No ubuntu SO detected',
+    }
+  }
+  
 
 }
