@@ -98,9 +98,26 @@ class domestic::packages {
   package {'default-jre':
     ensure => latest,
   }
-
-  package {'vagrant':
-    ensure => latest,
+  if $::operatingsystem == 'Ubuntu' {
+    #https://github.com/wolfgang42/vagrant-deb
+    #wolfgangmcq+vagrant-deb@gmail.com
+    apt::key { 'vagrant-deb.linestarve.com':
+      id      => 'AD319E0F7CFFA38B4D9F6E55CE3F3DE92099F7A4',
+      server  => 'pgp.mit.edu',
+      ensure  => 'present'
+    }->
+    apt::source{ 'wolfgang42-vagrant':
+      location     => 'http://vagrant-deb.linestarve.com/',
+      release      => 'any',
+      repos        => 'main',
+    }->
+    package {'vagrant':
+      ensure => latest,
+    }
+  }else{
+    notify{ "warn5":
+      message => 'No ubuntu SO detected',
+    }
   }
 
   package {'git':
