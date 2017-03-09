@@ -42,7 +42,7 @@ class domestic::packages {
     ensure => latest,
   }
 
-  if $::operatingsystem != 'Ubuntu' {
+  if $::operatingsystem == 'Ubuntu' {
     apt::source{ 'spotify_repo':
       location => 'http://repository.spotify.com',
       release  => 'stable',
@@ -56,10 +56,10 @@ class domestic::packages {
       ensure => latest,
     }
   }else {
-    notice( 'No ubuntu SO detected' )
+    notice( 'No ubuntu SO detected. Spotify not installed.' )
   }
 
-  if $::operatingsystem != 'Ubuntu' {
+  if $::operatingsystem == 'Ubuntu' {
     package {'apt-transport-https':
       ensure => latest,
     }->
@@ -77,7 +77,7 @@ class domestic::packages {
       ensure => latest,
     }
   }else {
-    notice( 'No ubuntu SO detected' )
+    notice( 'No ubuntu SO detected. Skype not installed.' )
   }
 
   package {'wine':
@@ -109,12 +109,17 @@ class domestic::packages {
       ensure => latest,
     }
   }else{
-    notice( 'No ubuntu SO detected' )
+    notice( 'No ubuntu SO detected. Vagrant installed from distro repos.' )
+
+    package {'vagrant':
+      ensure => latest,
+    }
   }
 
   package {'git':
     ensure => latest,
   }
+
   if $::operatingsystem == 'Ubuntu' {
     apt::ppa{ 'ppa:webupd8team/sublime-text-3':
       release => $::lsbdistcodename,
@@ -123,8 +128,9 @@ class domestic::packages {
       ensure => latest,
     }
   }else{
-    notice( 'No ubuntu SO detected' )
+    notice( 'No ubuntu SO detected. Sublime not installed.' )
   }
+
   package {'libreoffice':
     ensure => latest,
   }
@@ -150,7 +156,7 @@ class domestic::packages {
     ensure => latest,
   }
   package { 'nethogs':
-    ensure => installed,
+    ensure => latest,
   }
   package { 'mixxx':
     ensure => latest,
@@ -196,7 +202,7 @@ class domestic::packages {
       unless  => '/usr/bin/pipelight-plugin --list-enabled | /bin/grep silverlight5.0'
     }
   }else{
-    notice( 'No ubuntu SO detected' )
+    notice( 'No ubuntu SO detected. Pipelight plugin not installed.' )
   }
 
   if $::operatingsystem == 'Ubuntu' {
@@ -213,8 +219,11 @@ class domestic::packages {
       ensure => latest,
     }
   }else{
-    notice( 'No ubuntu SO detected' )
+    notice( 'No ubuntu SO detected. Remmina installed from distro repos.' )
+    
+    package {'remmina':
+      ensure => latest,
+    }
   }
-  
 
 }
