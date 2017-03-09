@@ -1,7 +1,5 @@
 class domestic::packages {
 
-  #To-Do: A define to display warning messages
-
   include apt
 
   package {'nautilus-dropbox':
@@ -44,7 +42,7 @@ class domestic::packages {
     ensure => latest,
   }
 
-  if $::operatingsystem == 'Ubuntu' {
+  if $::operatingsystem != 'Ubuntu' {
     apt::source{ 'spotify_repo':
       location => 'http://repository.spotify.com',
       release  => 'stable',
@@ -58,12 +56,10 @@ class domestic::packages {
       ensure => latest,
     }
   }else {
-    notify{ "warn":
-      message => 'No ubuntu SO detected',
-    }
+    notice( 'No ubuntu SO detected' )
   }
 
-  if $::operatingsystem == 'Ubuntu' {
+  if $::operatingsystem != 'Ubuntu' {
     package {'apt-transport-https':
       ensure => latest,
     }->
@@ -81,9 +77,7 @@ class domestic::packages {
       ensure => latest,
     }
   }else {
-    notify{ "warn3":
-      message => 'No ubuntu SO detected',
-    }
+    notice( 'No ubuntu SO detected' )
   }
 
   package {'wine':
@@ -115,9 +109,7 @@ class domestic::packages {
       ensure => latest,
     }
   }else{
-    notify{ "warn5":
-      message => 'No ubuntu SO detected',
-    }
+    notice( 'No ubuntu SO detected' )
   }
 
   package {'git':
@@ -131,9 +123,7 @@ class domestic::packages {
       ensure => latest,
     }
   }else{
-    notify{ "warn2":
-      message => 'No ubuntu SO detected',
-    }
+    notice( 'No ubuntu SO detected' )
   }
   package {'libreoffice':
     ensure => latest,
@@ -206,9 +196,7 @@ class domestic::packages {
       unless  => '/usr/bin/pipelight-plugin --list-enabled | /bin/grep silverlight5.0'
     }
   }else{
-    notify{ "warn3":
-      message => 'No ubuntu SO detected',
-    }
+    notice( 'No ubuntu SO detected' )
   }
 
   if $::operatingsystem == 'Ubuntu' {
@@ -225,9 +213,7 @@ class domestic::packages {
       ensure => latest,
     }
   }else{
-    notify{ "warn4":
-      message => 'No ubuntu SO detected',
-    }
+    notice( 'No ubuntu SO detected' )
   }
   
 
