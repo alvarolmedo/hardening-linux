@@ -1,4 +1,5 @@
 # hardening-linux
 Hardening a linux server
 
-puppet apply ./hardening-linux/manifests/site.pp --modulepath=./hardening-linux/modules/
+cd hardening-linux/
+sudo puppet apply ./manifests/site.pp --modulepath=./modules/
