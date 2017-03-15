@@ -226,4 +226,18 @@ class domestic::packages {
     }
   }
 
+  if $::operatingsystem == 'Ubuntu' {
+    apt::source{ 'google-chrome':
+      location     => 'http://dl.google.com/linux/chrome/deb/',
+      release      => 'stable',
+      repos        => 'main',
+      architecture => 'amd64',
+    }->
+    package {'google-chrome-stable':
+      ensure => latest,
+    }
+  }else {
+    notice( 'No ubuntu SO detected. Chrome not installed.' )
+  }
+
 }
