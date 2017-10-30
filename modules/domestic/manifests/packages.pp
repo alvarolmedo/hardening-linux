@@ -41,6 +41,12 @@ class domestic::packages {
   package {'vlc':
     ensure => latest,
   }
+  package {'ansible':
+    ensure => latest,
+  }
+  package {'sshpass':
+    ensure => latest,
+  }
 
   if $::operatingsystem == 'Ubuntu' {
     apt::source{ 'spotify_repo':
@@ -121,10 +127,11 @@ class domestic::packages {
   }
 
   if $::operatingsystem == 'Ubuntu' {
-    apt::ppa{ 'ppa:webupd8team/sublime-text-3':
-      release => $::lsbdistcodename,
+    apt::source{ 'sublime-text':
+      location     => 'https://download.sublimetext.com/',
+      release      => 'apt/stable/',
     }->
-    package {'sublime-text-installer':
+    package {'sublime-text':
       ensure => latest,
     }
   }else{
