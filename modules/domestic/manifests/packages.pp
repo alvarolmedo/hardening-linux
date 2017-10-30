@@ -66,9 +66,6 @@ class domestic::packages {
   }
 
   if $::operatingsystem == 'Ubuntu' {
-    package {'apt-transport-https':
-      ensure => latest,
-    }->
     exec { 'skype_key':
       command => '/usr/bin/curl https://repo.skype.com/data/SKYPE-GPG-KEY | /usr/bin/apt-key add -',
       unless  => '/usr/bin/apt-key list | /bin/grep -i skype'
@@ -78,6 +75,7 @@ class domestic::packages {
       release      => 'stable',
       repos        => 'main',
       architecture => 'amd64',
+      require      => Package['apt-transport-https'],
     }->
     package {'skypeforlinux':
       ensure => latest,
@@ -126,10 +124,19 @@ class domestic::packages {
     ensure => latest,
   }
 
+  package {'apt-transport-https':
+    ensure => latest,
+  }
+
   if $::operatingsystem == 'Ubuntu' {
+    exec { 'sublime-text_key':
+      command => '/usr/bin/wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | apt-key add -',
+      unless  => '/usr/bin/apt-key list | /bin/grep -i sublime'
+    }->
     apt::source{ 'sublime-text':
-      location     => 'https://download.sublimetext.com/',
-      release      => 'apt/stable/',
+      location => 'https://download.sublimetext.com/',
+      release  => 'apt/stable/',
+      require  => Package['apt-transport-https'],
     }->
     package {'sublime-text':
       ensure => latest,
