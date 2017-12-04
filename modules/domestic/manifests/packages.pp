@@ -70,9 +70,9 @@ class domestic::packages {
       command => '/usr/bin/curl https://repo.skype.com/data/SKYPE-GPG-KEY | /usr/bin/apt-key add -',
       unless  => '/usr/bin/apt-key list | /bin/grep -i skype'
     }->
-    apt::source{ 'skype-stable':
+    apt::source{ 'skype-unstable':
       location     => 'https://repo.skype.com/deb',
-      release      => 'stable',
+      release      => 'unstable',
       repos        => 'main',
       architecture => 'amd64',
       require      => Package['apt-transport-https'],
