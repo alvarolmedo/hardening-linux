@@ -148,6 +148,21 @@ class domestic::packages {
   package {'libreoffice':
     ensure => latest,
   }
+  package {'libreoffice-help-es':
+    ensure => latest,
+  }
+  package {'libreoffice-l10n-es':
+    ensure => latest,
+  }
+  package {'hunspell-es':
+    ensure => latest,
+  }
+  package {'hyphen-es':
+    ensure => latest,
+  }
+  package {'mythes-es':
+    ensure => latest,
+  }    
   package {'gpart':
     ensure => latest,
   }
