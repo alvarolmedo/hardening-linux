@@ -17,6 +17,12 @@ class domestic::packages {
   package {'ipython':
     ensure => latest,
   }
+  package {'python-dev':
+    ensure => latest,
+  }
+  package {'virtualenv':
+    ensure => latest,
+  }
   package {'dia':
     ensure => latest,
   }
@@ -44,17 +50,25 @@ class domestic::packages {
   package {'ansible':
     ensure => latest,
   }
+  package {'python-pip':
+    ensure => latest,
+  }
   package {'sshpass':
     ensure => latest,
   }
-
+  package {'openvpn':
+    ensure => latest,
+  }
+  package {'network-manager-openvpn-gnome':
+    ensure => latest,
+  }
   if $::operatingsystem == 'Ubuntu' {
     apt::source{ 'spotify_repo':
       location => 'http://repository.spotify.com',
       release  => 'stable',
       repos    => 'non-free',
       key      => {
-        id     => 'BBEBDCB318AD50EC6865090613B00F1FD2C19886',
+        id     => '0DF731E45CE24F27EEEB1450EFDC8610341D9410',
         server => 'hkp://keyserver.ubuntu.com:80',
       }
     }->
@@ -84,9 +98,6 @@ class domestic::packages {
     notice( 'No ubuntu SO detected. Skype not installed.' )
   }
 
-  package {'wine':
-    ensure => latest,
-  }
   package {'calibre':
     ensure => latest,
   }
@@ -136,6 +147,7 @@ class domestic::packages {
     apt::source{ 'sublime-text':
       location => 'https://download.sublimetext.com/',
       release  => 'apt/stable/',
+      repos    => '',
       require  => Package['apt-transport-https'],
     }->
     package {'sublime-text':
@@ -210,31 +222,6 @@ class domestic::packages {
   }
 
   if $::operatingsystem == 'Ubuntu' {
-    apt::ppa{ 'ppa:pipelight/stable':
-      release => 'stable',
-      notify => Exec['apt_update']
-    }->
-    package {'pipelight-multi':
-      ensure => latest,
-      install_options => ['--install-recommends'],
-    }->
-    exec {'update_pipelight':
-      command => '/usr/bin/pipelight-plugin --update',
-      unless  => '/usr/bin/pipelight-plugin --list-enabled | /bin/grep silverlight5.0'
-    }->
-    exec {'update_pipelight_2':
-      command => '/usr/bin/pipelight-plugin --create-mozilla-plugins',
-      unless  => '/usr/bin/pipelight-plugin --list-enabled | /bin/grep silverlight5.0'
-    }->
-    exec {'enable_pipelight':
-      command => '/usr/bin/pipelight-plugin --accept --enable silverlight5.0',
-      unless  => '/usr/bin/pipelight-plugin --list-enabled | /bin/grep silverlight5.0'
-    }
-  }else{
-    notice( 'No ubuntu SO detected. Pipelight plugin not installed.' )
-  }
-
-  if $::operatingsystem == 'Ubuntu' {
     apt::ppa{ 'ppa:remmina-ppa-team/remmina-next':
       release => $::lsbdistcodename,
     }->
@@ -256,6 +243,10 @@ class domestic::packages {
   }
 
   if $::operatingsystem == 'Ubuntu' {
+    exec { 'google-chrome_key':
+      command => '/usr/bin/wget -qO - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -',
+      unless  => '/usr/bin/apt-key list | /bin/grep -i google'
+    }->
     apt::source{ 'google-chrome':
       location     => 'http://dl.google.com/linux/chrome/deb/',
       release      => 'stable',

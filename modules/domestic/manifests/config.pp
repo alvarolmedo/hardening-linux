@@ -9,7 +9,7 @@ class domestic::config {
     ensure  => file,
     owner => aolmedo,
     group => aolmedo,
-    mode   => 0600,
+    mode   => '0600',
     content => template('domestic/tmux.conf.erb')
   }
 }
