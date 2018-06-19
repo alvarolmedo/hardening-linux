@@ -17,6 +17,9 @@ class domestic::packages {
   package {'ipython':
     ensure => latest,
   }
+  package {'pass':
+    ensure => latest,
+  }
   package {'python-dev':
     ensure => latest,
   }
