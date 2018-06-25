@@ -23,6 +23,9 @@ class domestic::packages {
   package {'python-dev':
     ensure => latest,
   }
+  package {'python-pypandoc':
+    ensure => latest,
+  }
   package {'virtualenv':
     ensure => latest,
   }
