@@ -2,6 +2,15 @@ class domestic::packages {
 
   include apt
 
+  package {'psensor':
+    ensure => latest,
+  }
+  package {'xfce4-sensors-plugin':
+    ensure => latest,
+  }
+  package {'meld':
+    ensure => latest,
+  }
   package {'nautilus-dropbox':
     ensure => latest,
   }
