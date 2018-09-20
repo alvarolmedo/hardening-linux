@@ -2,6 +2,9 @@ class domestic::packages {
 
   include apt
 
+  package {'sshuttle':
+    ensure => latest,
+  }
   package {'psensor':
     ensure => latest,
   }
