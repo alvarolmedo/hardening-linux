@@ -140,6 +140,10 @@ class domestic::packages {
     }->
     package {'vagrant':
       ensure => latest,
+    }->
+    exec {'install-plugin-vbox-guest':
+      command => '/usr/bin/vagrant plugin install vagrant-vbguest'
+      onlyif  => '/usr/bin/vagrant plugin list | /bin/grep vagrant-vbguest'
     }
   }else{
     notice( 'No ubuntu SO detected. Vagrant installed from distro repos.' )
