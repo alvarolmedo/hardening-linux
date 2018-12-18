@@ -56,6 +56,9 @@ class domestic::packages {
   package {'thunderbird':
     ensure => latest,
   }
+  package {'xul-ext-lightning':
+    ensure => latest,
+  }
   package {'thunderbird-locale-es':
     ensure => latest,
   }
