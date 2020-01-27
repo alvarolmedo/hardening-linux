@@ -246,6 +246,35 @@ class domestic::packages {
     ensure => latest,
   }
 
+
+  package { 'software-properties-common':
+    ensure => latest,
+  }
+
+  if $::operatingsystem == 'Ubuntu' {
+    apt::ppa{ 'ppa:longsleep/golang-backports':
+    }->
+    package { 'golang-1.12-go':
+      ensure => latest,
+    }->
+    exec { 'gopass':
+      command => '/usr/bin/go get github.com/gopasspw/gopass',
+      unless  => '/usr/bin/go list all | /bin/grep -i github.com/gopasspw/gopass'
+    }
+  }else{
+    notice( 'No ubuntu SO detected. Remmina installed from distro repos.' )
+    package { 'golang-go':
+      ensure => latest,
+    }->
+    exec { 'gopass':
+      command => '/usr/bin/go get github.com/gopasspw/gopass',
+      unless  => '/usr/bin/go list all | /bin/grep -i github.com/gopasspw/gopass'
+    }
+  }
+
+
+
+
   if $::operatingsystem == 'Ubuntu' {
     apt::ppa{ 'ppa:remmina-ppa-team/remmina-next':
       release => $::lsbdistcodename,
