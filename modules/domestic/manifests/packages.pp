@@ -5,6 +5,9 @@ class domestic::packages {
   package {'sshuttle':
     ensure => latest,
   }
+  package {'wireshark':
+    ensure => latest,
+  }
   package {'psensor':
     ensure => latest,
   }
